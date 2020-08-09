@@ -6,8 +6,8 @@ use std::path::Path;
 #[derive(Debug)]
 pub struct List {
     // id: u128,
-    name: String,
-    items: Vec<Item>,
+    pub name: String,
+    pub items: Vec<Item>,
 }
 
 impl List {

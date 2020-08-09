@@ -19,6 +19,16 @@ impl Item {
         self
     }
 
+    pub fn uncheck(&mut self) -> &mut Item {
+        self.checked = false;
+        self
+    }
+
+    pub fn toggle(&mut self) -> &mut Item {
+        self.checked = !self.checked;
+        self
+    }
+
     pub fn rename(&mut self, new_name: &str) -> &mut Item {
         self.name = new_name.to_string();
         self
