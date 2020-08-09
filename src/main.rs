@@ -1,3 +1,7 @@
+use std::path::Path;
+use terminal_checklist::list::List;
+
 fn main() {
-    println!("Hello, world!");
+    let list = List::from_file(&Path::new("test.list"));
+    println!("{:?}", list);
 }
