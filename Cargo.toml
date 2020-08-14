@@ -1,5 +1,5 @@
 [package]
-name = "terminal_checklist"
+name = "terminalist"
 version = "0.1.0"
 authors = ["shashank"]
 edition = "2018"

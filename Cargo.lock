@@ -92,7 +92,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "terminal_checklist"
+name = "terminalist"
 version = "0.1.0"
 dependencies = [
  "termion",

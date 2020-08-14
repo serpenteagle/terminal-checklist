@@ -1,6 +1,6 @@
 use std::path::Path;
-use terminal_checklist::list::List;
-use terminal_checklist::ui::UI;
+use terminalist::list::List;
+use terminalist::ui::UI;
 
 fn main() {
     let list = List::from_file(&Path::new("test.list"));

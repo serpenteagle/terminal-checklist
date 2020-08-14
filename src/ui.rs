@@ -2,6 +2,7 @@ extern crate termion;
 use crate::list::List;
 use std::io::{self, Stdin, Stdout, Write};
 use std::{thread, time};
+use termion::color;
 use termion::event::Key;
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
@@ -23,11 +24,8 @@ impl UI {
 
     pub fn start(&mut self) -> &mut UI {
         self.write_list();
-        // thread::sleep(time::Duration::from_millis(1000));
         write!(self.stdout, "{}", termion::cursor::Goto(1, 1));
         self.stdout.flush();
-        // thread::sleep(time::Duration::from_millis(1000));
-        self.selected = 0;
 
         let stdin = io::stdin();
 
@@ -47,6 +45,9 @@ impl UI {
                 Key::Char(' ') => {
                     self.list.items[self.selected as usize].toggle();
                     self.write_list();
+                }
+                Key::Char('w') => {
+                    // Write to file
                 }
                 _ => continue,
             };
@@ -68,15 +69,26 @@ impl UI {
 
     fn write_list(&mut self) {
         writeln!(self.stdout, "{}", termion::clear::All);
+
         for (line, item) in self.list.items.iter().enumerate() {
             writeln!(
                 self.stdout,
-                "{}{}",
-                termion::cursor::Goto(2, (line + 1) as u16),
-                item.as_string()
+                "{goto}{color}{item}{reset}",
+                goto = termion::cursor::Goto(2, (line + 1) as u16),
+                color = if item.checked {
+                    color::Fg(color::AnsiValue::grayscale(15))
+                } else {
+                    color::Fg(color::AnsiValue::grayscale(23))
+                },
+                item = item.as_string(),
+                reset = color::Fg(color::Reset)
             );
         }
-        write!(self.stdout, "{}", termion::cursor::Goto(1, (self.selected + 1) as u16));
+        write!(
+            self.stdout,
+            "{}",
+            termion::cursor::Goto(1, (self.selected + 1) as u16)
+        );
 
         self.stdout.flush().unwrap();
     }
