@@ -44,7 +44,7 @@ impl List {
         let mut items = Vec::new();
 
         for (num, line) in contents.lines().enumerate() {
-            items.push(Item::parse(line, num as u64));
+            items.push(Item::parse(line, num));
             // println!("{}", line);
         }
 
@@ -73,6 +73,10 @@ impl List {
                 panic!("No associated file");
             }
         }
+    }
+    
+    pub fn len(&self) -> usize {
+        self.items.len()
     }
 }
 

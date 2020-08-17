@@ -1,5 +1,6 @@
 extern crate termion;
 use crate::list::List;
+use crate::item::Item;
 use std::io::{self, Stdin, Stdout, Write};
 use std::{thread, time};
 use termion::color;
@@ -48,6 +49,10 @@ impl UI {
                 }
                 Key::Char('w') => {
                     self.list.write_file();
+                }
+                Key::Char('a') => {
+                    self.list.add_one(Item::new("New_item", self.list.len()));
+                    self.write_list();
                 }
                 _ => continue,
             };

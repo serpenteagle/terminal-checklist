@@ -1,12 +1,12 @@
 #[derive(Debug)]
 pub struct Item {
-    id: u64,
+    id: usize,
     pub name: String,
     pub checked: bool,
 }
 
 impl Item {
-    pub fn new(name: &str, id: u64) -> Item {
+    pub fn new(name: &str, id: usize) -> Item {
         Item {
             id,
             name: name.to_string(),
@@ -38,7 +38,7 @@ impl Item {
         format!("[{}] {}", if self.checked { "X" } else { " " }, self.name)
     }
 
-    pub fn parse(item: &str, id: u64) -> Item {
+    pub fn parse(item: &str, id: usize) -> Item {
         let parts: Vec<&str> = item.split(' ').collect();
         let name = if parts.len() == 3 {
             parts[2].to_string()
