@@ -8,6 +8,7 @@ pub struct List {
     // id: u128,
     pub name: String,
     pub items: Vec<Item>,
+    pub file: Option<String>,
 }
 
 impl List {
@@ -16,6 +17,7 @@ impl List {
             // id: Uuid::new_v4().as_u128(),
             name: name.to_string(),
             items: Vec::new(),
+            file: None,
         }
     }
 
@@ -46,12 +48,37 @@ impl List {
             // println!("{}", line);
         }
 
-        List { name, items }
+        List {
+            name,
+            items,
+            file: Some(String::from(file.to_str().unwrap())),
+        }
+    }
+
+    pub fn as_string(&self) -> String {
+        let mut result = String::new();
+        for item in self.items.iter() {
+            let as_string = format!("{}\n", &item.as_string());
+            result.push_str(&as_string);
+        }
+        result
+    }
+
+    pub fn write_file(&self) {
+        match &self.file {
+            Some(path) => {
+                fs::write(&path, &self.as_string());
+            }
+            None => {
+                panic!("No associated file");
+            }
+        }
     }
 }
 
 mod tests {
     use super::{Item, List};
+    use std::fs;
     use std::path::Path;
 
     #[test]
@@ -79,5 +106,14 @@ mod tests {
     fn parse_from_file() {
         let list = List::from_file(&Path::new("test.list"));
         println!("{:?}", list)
+    }
+
+    #[test]
+    fn list_as_string() {
+        let raw = fs::read_to_string("test.list").expect("Error reading file");
+        let list = List::from_file(Path::new("test.list"));
+        let as_string = list.as_string();
+
+        assert_eq!(raw, as_string);
     }
 }

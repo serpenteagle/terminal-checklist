@@ -47,7 +47,7 @@ impl UI {
                     self.write_list();
                 }
                 Key::Char('w') => {
-                    // Write to file
+                    self.list.write_file();
                 }
                 _ => continue,
             };
